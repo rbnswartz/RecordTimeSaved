@@ -106,10 +106,13 @@ class Program
         }
         
         Console.WriteLine($"Time saved by tool since {earliestTimeSaved:d}:");
+        int totalTime = 0;
         foreach (var entry in timeSaved)
         {
             Console.WriteLine($"{entry.Key}: {HumanizeTime(entry.Value)}");
+            totalTime += entry.Value;
         }
+        Console.WriteLine($"Total: {HumanizeTime(totalTime)}");
     }
     
     static void RecordTimeSaved(SqliteConnection connection, string tool, int timeInSeconds)
@@ -175,9 +178,9 @@ class Program
         if (seconds < 60)
             return $"{seconds} seconds";
         if (seconds < 3600)
-            return $"{seconds / 60} minutes";
+            return $"{seconds / 60.0:F2} minutes";
         if (seconds < 86400)
-            return $"{seconds / 3600} hours";
-        return $"{seconds / 86400} days";
+            return $"{seconds / 3600.0:F2} hours";
+        return $"{seconds / 86400:F2} days";
     }
 }
